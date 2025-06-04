@@ -2,7 +2,7 @@
 
 **Notice: Code Release in Progress**
 
-This repository will host the open-source code accompanying our manuscript currently under review at PharmacoEconomics
+This repository will host the open-source code accompanying our manuscript currently under review 
 
 We are currently migrating the finalised codebase from our internal development repository
 
