@@ -14,7 +14,7 @@ from simulation_package.type1_diabetes_dka_splitting import Type1DiabetesDkaSpli
 
 @pytest.fixture
 def type1_diabetes_dka_splitting():
-    return Type1DiabetesDkaSplitting(dka_ratio=0.99)
+    return Type1DiabetesDkaSplitting(dka_ratio=0.58)
 
 @pytest.fixture
 def mock_population():
@@ -45,7 +45,7 @@ def test_base_further_t1d_splitting_rate(type1_diabetes_dka_splitting, mock_even
     rate = type1_diabetes_dka_splitting.base_further_t1d_splitting_rate(mock_event.index)
 
     # --------------- assert --------------
-    expected_rate = pd.Series([0.99] * 10)
+    expected_rate = pd.Series([0.58] * 10)
     pdt.assert_series_equal(rate, expected_rate, check_names=False, atol=1e-6, rtol=1e-5)
 
 def test_determine_t1d(type1_diabetes_dka_splitting, mock_event, mock_population):
@@ -64,7 +64,7 @@ def test_determine_t1d(type1_diabetes_dka_splitting, mock_event, mock_population
     mock_population_view = MagicMock()
     mock_population_view.get = MagicMock(return_value=mock_population.get(mock_event.index))
     type1_diabetes_dka_splitting.population_view = mock_population_view
-
+    
 
     # --------------- act ----------------
     type1_diabetes_dka_splitting.determine_t1d(mock_event)

@@ -33,7 +33,7 @@ import numpy as np
 
 
 #wtcc dataset to compute GRS
-df_wtcc = pd.read_csv("WTCCC_noised_all.csv")
+df_wtcc = pd.read_csv("background_population_grs.csv")
 df_wtcc = df_wtcc.drop(columns= "Unnamed: 0")
 no_t1d_wtcc_df = df_wtcc[df_wtcc["t1d_status"]== 0]
 no_t1d_wtcc_list = no_t1d_wtcc_df["GRS2"].tolist()
