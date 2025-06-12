@@ -5,6 +5,7 @@
 
 File structure overview:
 
+```
 Dockerfile                          # add docker?
 LICENSE
 README.md                          # Project documentation 
@@ -23,7 +24,7 @@ transition_probabilities
 └── binary_files                   # Survival regression model binaries for transition probabilities
     ├── [state_transition].bin
     └── RiskTable.csv
-
+```
 
 # Simulation overview
 
