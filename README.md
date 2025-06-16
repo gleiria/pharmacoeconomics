@@ -3,6 +3,10 @@
 
 # Development of a Patient-Level Multi-Objective Optimisation Budget Impact Model for Screening Strategies for Childhood Type 1 Diabetes
 
+
+## Lifetime Modelling Diagram
+![Figma Diagram](diagram.png)
+
 File structure overview:
 
 ```
@@ -30,55 +34,33 @@ transition_probabilities
     └── RiskTable.csv              # risk table for adult simulations
 ```
 
-# Simulation overview
 
-The simulation models individual T1D states through six distinct health states (as in the paper):
+# Get Local Copy of the Repository
+```shell
+git clone https://github.com/gleiria/pharmacoeconomics.git
+```
 
-    Healthy
-
-    Autoantibody Positive (Ab1)
-
-    Multiple Autoantibodie (mAb1)
-
-    Dysglycemia
-
-    Type 1 Diabetes with/without DKA
-
-Each state is represented by a dedicated Python class with methods that govern:
-
-    Transitions to other states
-
-    Interaction with other states 
-
-    Updating simulant attributes 
-
-Transition probabilities are derived from pre-trained survival regression models stored as .bin files in transition_probabilities/binary_files.
-
-
-# Multi-Objective Optimisation
-
-This project integrates Pymoo for multi-objective optimisation of screening strategies.
-
-Key files:
-
-    run_optimiser_noisy.py → Runs simulation batches within a Pymoo optimiser loop.
-
-    optimiser_noisy.py → Defines the multi-objective problem (e.g. minimising costs, DKA ratio, number of screenings)
+# Install Dependencies
+(inside your Python environment)
+```shell
+pip install -r requirements.txt
+```
 
 
 # How to Run Vivarium Simulations
 
-```
-python simulation_package/fire_simulation.py
+```shell
+python simulation_package/run_simulation.py
 ```
 
-This will execute a full microsimulation 
 
 # Run Vivarium Simulations + Multi-Objective Optimisation
 
+```shell
+python simulation_package/run_optimisation.py
 ```
-python simulation_package/fire_simulation.py
-```
+
+
 
 
 
