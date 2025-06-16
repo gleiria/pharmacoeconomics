@@ -38,9 +38,11 @@ df_wtcc = df_wtcc.drop(columns= "Unnamed: 0")
 no_t1d_wtcc_df = df_wtcc[df_wtcc["t1d_status"]== 0]
 no_t1d_wtcc_list = no_t1d_wtcc_df["GRS2"].tolist()
 
+
 class Population:
     """
-    Component creates population of simulants
+    Component creates population of simulants with initial values for age, GRS2, family history, state, time in state, and other relevant columns.
+    It also handles aging of simulants at every simulation cycle.
     """
 
     configuration_defaults = {
@@ -58,7 +60,11 @@ class Population:
 
     def setup(self, builder: Builder):
         """
-        Set up Population component
+        The setup method gives the component access to an instance of the Builder which exposes a handful of tools to help build components.
+        The simulation framework is responsible for calling the setup method on components and providing the builder to them
+
+        Args:
+            builder (Builder): 
         """
         self.config = builder.configuration
         columns_created = ["age","GRS2", "fdr", "state","time_in_state","previous_state","screened_in_past","number_of_screens","screen_status","screening_cost", "market_basket_cost",
