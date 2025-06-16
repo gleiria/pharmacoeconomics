@@ -63,13 +63,7 @@ class AutoAntibody:
         self.survival_probs_mab1 = []
 
     def setup(self, builder: Builder):
-           """
-        The setup method gives the component access to an instance of the Builder which exposes a handful of tools to help build components.
-        The simulation framework is responsible for calling the setup method on components and providing the builder to them
-
-        Args:
-            builder (Builder): 
-        """
+        
         self.population_view = builder.population.get_view(
             [
                 "state",
