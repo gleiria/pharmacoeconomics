@@ -41,7 +41,7 @@ git clone https://github.com/gleiria/pharmacoeconomics.git
 ```
 
 # Install Dependencies
-(inside your Python environment)
+(inside your Python environment the following code run with Python3.9 and have not been tested for other Python version)
 ```shell
 pip install -r requirements.txt
 ```
@@ -50,7 +50,7 @@ pip install -r requirements.txt
 # How to Run Vivarium Simulations
 
 ```shell
-python simulation_package/run_simulation.py
+python simulation_package/fire_simulation.py
 ```
 
 
