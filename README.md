@@ -34,19 +34,33 @@ transition_probabilities
     └── RiskTable.csv              # risk table for adult simulations
 ```
 
+# How to Reproduce System Environment
+This project includes a Dockerfile that anyone can use to reproduce the simulation environment and run simulations.
 
+Note: You can use either Docker or Podman with this Dockerfile, as their command-line interfaces are virtually identical.
+
+**Build image:**
+```shell
+podman build -t name_image .
+```
+
+**Run Container:**
+```shell
+podman run -it --name name_container image_name /bin/bash
+```
+After running this command, you will be inside the container, able to interact directly with the project's file system and run simulations.
 
 # How to Run Vivarium Simulations
 
 ```shell
-python simulation_package/fire_simulation.py
+python3 simulation_package/fire_simulation.py
 ```
 
 
 # Run Vivarium Simulations + Multi-Objective Optimisation
 
 ```shell
-python simulation_package/run_optimisation.py
+python3 simulation_package/run_optimisation.py
 ```
 
 
