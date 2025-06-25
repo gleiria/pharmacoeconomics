@@ -27,7 +27,7 @@ start_time = time.time()
 dka_list = []
 costs = []
 
-for i in range(10):
+for i in range(1):
 
     config = {
         'randomness': {
@@ -44,18 +44,26 @@ for i in range(10):
 
     screening_strategy = np.ones(15)
 
-    sim = InteractiveContext(components=[Population(), AutoAntibody(), Ab1ToHealthy(),
-                                        AutoToMultiInsideAutoAntibody(),
-                                        MultiToAutoInsideAutoantibody(),
-                                        Dysglycemia(),
-                                        FromDysglycemia(),
-                                        Screening(continuous_vector= screening_strategy),
-                                        ScreeningIntervention('screening_intervention', 'further_t1d_splitting_rate'),
-                                        Type1DiabetesDkaSplitting(dka_ratio=0.58),
-                                        StateTableObserver(),
-                                        ObjectiveFunctionCosts(),
-                                        ObjectiveFunctionDKA()
-                                        ], configuration=config)
+
+    # sim = InteractiveContext(components=[Population(), AutoAntibody(), Ab1ToHealthy(),
+    #                                     AutoToMultiInsideAutoAntibody(),
+    #                                     MultiToAutoInsideAutoantibody(),
+    #                                     Dysglycemia(),
+    #                                     FromDysglycemia(),
+    #                                     Screening(continuous_vector= screening_strategy),
+    #                                     ScreeningIntervention('screening_intervention', 'further_t1d_splitting_rate'),
+    #                                     Type1DiabetesDkaSplitting(dka_ratio=0.58),
+    #                                     StateTableObserver(),
+    #                                     ObjectiveFunctionCosts(),
+    #                                     ObjectiveFunctionDKA()
+    #                                     ], configuration=config)
+    
+
+    sim = InteractiveContext(components=[Population(), AutoAntibody(), Ab1ToHealthy(), AutoToMultiInsideAutoAntibody(),
+                                           MultiToAutoInsideAutoantibody(), Dysglycemia(),FromDysglycemia(),
+                                           Type1DiabetesDkaSplitting(dka_ratio=0.58), Screening(continuous_vector= screening_strategy), StateTableObserver()
+                                    ], configuration=config)
+
 
     # Run the simulation
 
@@ -64,15 +72,15 @@ for i in range(10):
     state_table = sim.get_population()
     print(state_table.head(5))
     print(state_table["state"].value_counts())
-    print("-----------------------------------------------")
-    costs = sim.get_component("objective_function_costs")
-    total_costs = costs.total_costs
-    costs_list.append(total_costs)
-    print(total_costs)
-    dka = sim.get_component("objective_function_dka")
-    dka_ratio = dka.dka_ratio
-    dka_list.append(dka_ratio)
-    print(dka_ratio)
+    # print("-----------------------------------------------")
+    # costs = sim.get_component("objective_function_costs")
+    # total_costs = costs.total_costs
+    # costs_list.append(total_costs)
+    # print(total_costs)
+    # dka = sim.get_component("objective_function_dka")
+    # dka_ratio = dka.dka_ratio
+    # dka_list.append(dka_ratio)
+    # print(dka_ratio)
 
 
 

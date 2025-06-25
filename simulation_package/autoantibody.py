@@ -106,21 +106,61 @@ class AutoAntibody:
         # Store the surv probs for each cycle
         self.survival_probs_ab1.append(survival_prob)
         rate = 1 - survival_prob.iloc[0]
-        rate = rate.where(population_df["GRS2"] >= 8.2, rate / 2.6)  # if condition evaluates to True, divide
-        rate = rate.where(population_df["GRS2"] >= 9.7, rate / 3.2)
-        rate = rate.where(population_df["GRS2"] >= 11, rate / 3.4)
-        rate = rate.where(population_df["GRS2"] >= 12.4, rate / 3.89)  # therefore GRS above 12.4 won't be touched
+        grs = population_df['GRS2']
+        conditions = [
+        grs < 8.2,
+        grs < 9.7,
+        grs < 11,
+        grs < 12.4]
+
+        divisors = [2.6, 3.2, 3.4, 3.89]
+
+        divisor = np.select(conditions, divisors, default=1.0) #default 1 means no division if none of the conditions are met
+        rate = rate / divisor
+
         return rate
+    # def base_ab1_transition_rate(self, index: pd.Index) -> pd.Series:
+    #     population_df = self.population_view.get(index)
+    #     survival_prob = healthy_to_ab1_model.predict_survival_function(population_df, times=1, conditional_after=population_df["time_in_state"])
+    #     # Store the surv probs for each cycle
+    #     self.survival_probs_ab1.append(survival_prob)
+    #     rate = 1 - survival_prob.iloc[0]
+    #     rate = rate.where(population_df["GRS2"] >= 8.2, rate / 2.6)  # if condition evaluates to True, divide
+    #     rate = rate.where(population_df["GRS2"] >= 9.7, rate / 3.2)
+    #     rate = rate.where(population_df["GRS2"] >= 11, rate / 3.4)
+    #     rate = rate.where(population_df["GRS2"] >= 12.4, rate / 3.89)  # therefore GRS above 12.4 won't be touched
+    #     return rate
+
+    # def base_mab1_transition_rate(self, index: pd.Index) -> pd.Series:
+    #     population_df = self.population_view.get(index)
+    #     survival_prob = healthy_to_mab1_model.predict_survival_function(population_df, times=1, conditional_after=population_df["time_in_state"])
+    #     self.survival_probs_mab1.append(survival_prob)
+    #     rate = 1 - survival_prob.iloc[0]
+
+    #     rate = 1 - survival_prob.iloc[0]
+    #     rate = rate.where(population_df["GRS2"] >= 8.2, rate / 2.6)
+    #     rate = rate.where(population_df["GRS2"] >= 9.7, rate / 3.2)
+    #     rate = rate.where(population_df["GRS2"] >= 11, rate / 3.4)
+    #     rate = rate.where(population_df["GRS2"] >= 12.4, rate / 3.89)
+    #     return rate
 
     def base_mab1_transition_rate(self, index: pd.Index) -> pd.Series:
         population_df = self.population_view.get(index)
         survival_prob = healthy_to_mab1_model.predict_survival_function(population_df, times=1, conditional_after=population_df["time_in_state"])
         self.survival_probs_mab1.append(survival_prob)
         rate = 1 - survival_prob.iloc[0]
-        rate = rate.where(population_df["GRS2"] >= 8.2, rate / 2.6)
-        rate = rate.where(population_df["GRS2"] >= 9.7, rate / 3.2)
-        rate = rate.where(population_df["GRS2"] >= 11, rate / 3.4)
-        rate = rate.where(population_df["GRS2"] >= 12.4, rate / 3.89)
+        grs = population_df['GRS2']
+        conditions = [
+        grs < 8.2,
+        grs < 9.7,
+        grs < 11,
+        grs < 12.4]
+
+        divisors = [2.6, 3.2, 3.4, 3.89]
+
+        divisor = np.select(conditions, divisors, default=1.0) #default 1 means no division if none of the conditions are met
+        rate = rate / divisor
+
         return rate
 
     def _get_healthy_population(self, full_population):

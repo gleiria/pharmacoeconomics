@@ -1,3 +1,4 @@
+
 import os
 import sys
 
@@ -46,6 +47,7 @@ class FromDysglycemia:
 
         #resgister determine_from_dysglycemia in event system
         builder.event.register_listener("time_step", self.determine_from_dysglycemia)
+        builder.event.register_listener("time_step", self.determine_time_in_state)
 
     def base_dysglycemia_to_ab1_rate(self, index:pd.Index) -> pd.Series:
         dysglycemic_population_df = self.dysglycemic_population_view.get(index)
@@ -130,6 +132,25 @@ class FromDysglycemia:
         self.population_view.update(ab1_series.rename("state"))
         self.population_view.update(mab1_series.rename("state"))
         self.population_view.update(t1d_series.rename("state"))
+
+    def determine_time_in_state(self, event: Event):
+        """
+        Updates the 'time_in_state' and 'previous_state' for individuals in the population.
+        Args:
+            event (Event): The event containing the index of the population to be evaluated.
+        Returns:
+            None
+        """
+        # get population
+        population = self.population_view.get(event.index)
+        # get all rows in the population where state != previous state
+        # these individuals just changed state in this cycle, so reset their time_in_state to 0
+        population.loc[population["state"] != population["previous_state"], "time_in_state"] = 0
+        # update previous_state to the current state for those who changed state
+        population.loc[population["state"] != population["previous_state"], "previous_state"] = population.loc[population["state"] != population["previous_state"], "state"]
+        # update the population view with the modified data
+        self.population_view.update(population)
+
 
 
 
